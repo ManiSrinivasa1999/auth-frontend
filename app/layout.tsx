@@ -1,5 +1,6 @@
 import type { Metadata } from 'next'
 import './globals.css'
+import './lib/axios'
 
 export const metadata: Metadata = {
   title: 'Authentication App',
