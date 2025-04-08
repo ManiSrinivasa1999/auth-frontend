@@ -4,6 +4,7 @@ import { LoginFormSchema } from '@/app/lib/definitions'
 import axios from 'axios'
 import setCookieParser from 'set-cookie-parser'
 import { cookies } from 'next/headers'
+import { redirect } from 'next/navigation'
 
 type AuthState = {
   success: boolean
@@ -37,7 +38,7 @@ export async function loginAction(
       // @ts-ignore
       cookieStore.set(cookie.name, cookie.value, {...cookie})
     })
-    return data
+    redirect("/profile")
   } catch (error) {
     console.log("Error occured during login: ", error)
     throw error
@@ -80,7 +81,7 @@ export async function registerAction(
       // @ts-ignore
       cookieStore.set(cookie.name, cookie.value, {...cookie})
     })
-    return data
+    redirect("/profile")
   } catch (error) {
     console.log("Error occured during login: ", error)
     throw error

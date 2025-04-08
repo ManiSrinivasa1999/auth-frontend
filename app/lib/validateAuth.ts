@@ -7,7 +7,6 @@ export const validateAuth = async () => {
     const URL = process.env.LOCAL_BACKEND_URL + '/validate/tokens'
     const accessToken = cookieStore.get('access_token')?.value
     const refreshToken = cookieStore.get('refresh_token')?.value
-    console.log(refreshToken)
     const res = await axios.put(
       URL,
       {},

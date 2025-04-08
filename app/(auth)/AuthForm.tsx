@@ -1,4 +1,5 @@
 'use client'
+import { motion } from 'framer-motion'
 import React, { useActionState, useState } from 'react'
 
 type AuthState = {
@@ -6,84 +7,91 @@ type AuthState = {
   message?: string
 }
 
-type AuthAction = (prevState: AuthState | undefined, formData: FormData) => Promise<AuthState>
+type AuthAction = (
+  prevState: AuthState | undefined,
+  formData: FormData
+) => Promise<AuthState>
 
 type Props = {
   action: AuthAction
   isSignup: boolean
 }
 
+const inputStyle =
+  'w-full px-4 py-2  bg-white/10 text-white border border-white/30 rounded-lg focus:ring-2 focus:ring-blue-500 transition-all duration-200'
+
 const AuthForm = ({ action, isSignup }: Props) => {
   const [state, formAction] = useActionState<AuthState, FormData>(action, {
     success: false,
   })
-  const [showPassword, setShowPassword] = useState(false)
 
   return (
-    <section className="w-full h-screen flex flex-col">
-      <form
+    <section className="w-full h-screen flex flex-col bg-gradient-to-r from-gray-900 to-black text-white">
+      <motion.form
+        initial={{ opacity: 0, scale: 0.9 }}
+        animate={{ opacity: 1, scale: 1 }}
+        transition={{ duration: 0.5, ease: 'easeInOut' }}
         action={formAction}
-        className="bg-white shadow-md rounded px-8 pt-6 pb-8 max-w-xs self-center"
+        className="flex flex-col m-auto justify-center items-center bg-white/10 backdrop-blur-lg border  border-white/20 shadow-lg rounded-2xl p-6 gap-4 w-85"
       >
+        <motion.h4
+          initial={{ opacity: 0, y: -10 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ delay: 0.3 }}
+          className="text-3xl font-semibold"
+        >
+          {isSignup ? 'Register' : 'Login'} from here!
+        </motion.h4>
         {isSignup && (
-          <div className="mb-4">
-            <label className="block text-gray-700 text-sm font-bold mb-2" htmlFor="username">
+          <motion.div
+            className="w-full"
+            initial={{ opacity: 0, x: -20 }}
+            animate={{ opacity: 1, x: 0 }}
+            transition={{ delay: 0.4 }}
+          >
+            <label className="text-sm font-light my-4" htmlFor="name">
               Name
             </label>
-            <input
-              className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-              id="name"
-              type="text"
-              name="name"
-              placeholder="Eg: Mani Badam"
-              required
-            />
-          </div>
+            <input type="text" id="name" name="name" className={inputStyle} />
+          </motion.div>
         )}
-        <div className="mb-4">
-          <label className="block text-gray-700 text-sm font-bold mb-2" htmlFor="username">
+        <motion.div
+          className="w-full"
+          initial={{ opacity: 0, x: -20 }}
+          animate={{ opacity: 1, x: 0 }}
+          transition={{ delay: 0.5 }}
+        >
+          <label className="text-sm font-light my-4" htmlFor="email">
             Email
           </label>
-          <input
-            className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-            id="email"
-            type="email"
-            name="email"
-            placeholder="name@gmail.com"
-            required
-          />
-        </div>
-        <div className="mb-4">
-          <label className="block text-gray-700 text-sm font-bold mb-2" htmlFor="password">
+          <input type="email" id="email" name="email" className={inputStyle} />
+        </motion.div>
+        <motion.div
+          className="w-full"
+          initial={{ opacity: 0, x: -20 }}
+          animate={{ opacity: 1, x: 0 }}
+          transition={{ delay: 0.6 }}
+        >
+          <label className="text-sm font-light my-4" htmlFor="password">
             Password
           </label>
+          <input
+            type="password"
+            id="password"
+            name="password"
+            className={inputStyle}
+          />
+        </motion.div>
 
-          <div className="relative">
-            <input
-              className="shadow appearance-none border rounded w-full py-2 px-3 pr-16 text-gray-700 mb-3 leading-tight focus:outline-none focus:shadow-outline"
-              id="password"
-              type={showPassword ? 'text' : 'password'}
-              name="password"
-              placeholder="***********"
-              required
-            />
-
-            <button
-              type="button"
-              onClick={() => setShowPassword(prev => !prev)}
-              className="absolute right-2 top-1/2 -translate-y-1/2 text-sm text-blue-500 font-medium hover:underline focus:outline-none pb-[12px]"
-            >
-              {showPassword ? 'Hide' : 'Show'}
-            </button>
-          </div>
-        </div>
-        <button
-          className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
-          type="submit"
+        <motion.button
+          whileHover={{ scale: 1.05 }}
+          whileTap={{ scale: 0.95 }}
+          transition={{ duration: 0.2 }}
+          className="w-full mt-4 py-2 bg-blue-600 hover:bg-blue-500 transition-all duration-200 text-white rounded-lg shadow-md hover:shadow-lg"
         >
-          {isSignup ? 'Sign up' : 'Sign In'}
-        </button>
-      </form>
+          {isSignup ? 'Register' : 'Login'}
+        </motion.button>
+      </motion.form>
     </section>
   )
 }
